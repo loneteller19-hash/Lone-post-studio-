@@ -15,6 +15,7 @@ jobs:
           npm init -y
           npm i @capacitor/core @capacitor/cli @capacitor/android
           npx cap add android
+          printf "\nconfigurations.all {\n    exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk7'\n    exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk8'\n}\n" >> android/app/build.gradle
           for d in mdpi hdpi xhdpi xxhdpi xxxhdpi; do for f in ic_launcher ic_launcher_round ic_launcher_foreground; do cp icons/icon-192.png android/app/src/main/res/mipmap-$d/$f.png; done; done
           rm -f android/app/src/main/res/mipmap-anydpi-v26/*.xml
           npx cap sync android
