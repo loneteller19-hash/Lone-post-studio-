@@ -1,0 +1,3 @@
+{"appId":"com.lone.poststudio","appName":"Lone Post Studio","webDir":"www",
+"server":{"url":"http://localhost:3000","cleartext":true,"allowNavigation":["localhost","accounts.google.com","*.google.com"]},
+"android":{"allowMixedContent":true}}

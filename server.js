@@ -29,9 +29,9 @@ async function toYouTube(j){
   a.on("tokens",t=>wr(TOK,{...rd(TOK,{}),...t}));
   const tag=j.short&&!/#shorts/i.test(j.title+j.description)?" #Shorts":"";
   const res=await youtube({version:"v3",auth:a}).videos.insert({part:"snippet,status",
-    requestBody:{snippet:{title:(j.title+tag).slice(0,100),description:j.description+tag},status:{privacyStatus:"public"}},
+    requestBody:{snippet:{title:(j.title+tag).slice(0,100),description:j.description+tag},status:(j.at>Date.now()+120000?{privacyStatus:"private",publishAt:new Date(j.at).toISOString(),selfDeclaredMadeForKids:false}:{privacyStatus:"public",selfDeclaredMadeForKids:false})},
     media:{body:fs.createReadStream("uploads/"+j.file)}});
-  return"https://youtu.be/"+res.data.id;
+  return(j.at>Date.now()+120000?"Scheduled on YouTube for "+new Date(j.at).toLocaleString()+" · ":"")+"https://youtu.be/"+res.data.id;
 }
 async function toInstagram(j){
   const g=(p,o)=>fetch("https://graph.facebook.com/v21.0/"+p,o).then(r=>r.json());
@@ -52,12 +52,16 @@ async function toInstagram(j){
 let busy=false;
 async function run(){
   if(busy)return;busy=true;
-  try{for(const j of jobs.filter(x=>x.state==="scheduled"&&x.at<=Date.now())){
+  try{for(const j of jobs.filter(x=>x.state!=="done")){
+    // YouTube uploads right away (YouTube holds the schedule itself); Instagram waits for its time.
+    const todo=j.platforms.filter(p=>!j.results[p]&&(p==="youtube"||j.at<=Date.now()));
+    if(!todo.length)continue;
     j.state="posting";wr(JOBS,jobs);
-    await Promise.all(j.platforms.map(async p=>{
+    await Promise.all(todo.map(async p=>{
       try{j.results[p]={ok:true,msg:await(p==="youtube"?toYouTube:toInstagram)(j)}}
       catch(e){j.results[p]={ok:false,msg:e.message}}}));
-    j.state="done";wr(JOBS,jobs);
+    j.state=j.platforms.every(p=>j.results[p])?"done":"scheduled";wr(JOBS,jobs);
+    if(j.state==="done")fs.unlink("uploads/"+j.file,()=>{});
   }}finally{busy=false}
 }
 jobs.forEach(j=>{if(j.state==="posting")j.state="scheduled"});

@@ -1,47 +1,178 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<!DOCTYPE html><html lang="en" data-anim="pop"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0a12">
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
 <title>Lone Post Studio</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦊</text></svg>">
 <style>
-:root{--bg:#f6f5f9;--c:#fff;--tx:#1d1b26;--m:#6b6880;--b:#e3e0ee;--a:#6c4cf1}
-@media(prefers-color-scheme:dark){:root{--bg:#13121a;--c:#1d1b27;--tx:#f1eff8;--m:#a09cb8;--b:#322f42;--a:#8d73ff}}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:16px system-ui,sans-serif}
-main{max-width:760px;margin:auto;padding:16px}.card{background:var(--c);border:1px solid var(--b);border-radius:14px;padding:14px;margin-bottom:14px}
-.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}.col{border:1px solid var(--b);border-radius:12px;padding:12px}
-input,textarea{width:100%;padding:10px;margin:4px 0 10px;border:1px solid var(--b);border-radius:10px;background:var(--bg);color:var(--tx);font:inherit}
-button,.btn{display:inline-block;padding:10px 14px;border:0;border-radius:10px;background:var(--a);color:#fff;font:inherit;font-weight:600;cursor:pointer;text-decoration:none}
-.ok{color:#1a9d5c}.no{color:#d33}.m{color:var(--m);font-size:13px}label{font-size:13px;color:var(--m)}
-</style></head><body><main>
-<h1>🎬 Lone Post Studio</h1>
-<form id="f" class="card">
-<label>Video file</label><input type="file" name="video" accept="video/*" required>
-<label>Title</label><input name="title" maxlength="100" required>
-<label>Description</label><textarea name="description" rows="4"></textarea>
-<label>Schedule (leave empty to post now)</label><input type="datetime-local" name="scheduleAt">
+:root{--b1:#7c5cff;--b2:#ff5fa2;--b3:#38bdf8;--a:#8d73ff;--a2:#ff5fa2;--tx:#f5f4fb;--m:rgba(245,244,251,.62);--base:#0b0a12;--gl:rgba(255,255,255,.10);--gl2:rgba(255,255,255,.08);--bd:rgba(255,255,255,.22);--hi:rgba(255,255,255,.35);--sh:rgba(0,0,0,.35)}
+@media(prefers-color-scheme:light){:root{--tx:#1b1a24;--m:rgba(27,26,36,.6);--base:#eceef8;--gl:rgba(255,255,255,.55);--gl2:rgba(255,255,255,.5);--bd:rgba(255,255,255,.8);--hi:rgba(255,255,255,.9);--sh:rgba(60,60,120,.18)}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{padding-top:env(safe-area-inset-top,0)}
+body{margin:0;min-height:100vh;background:var(--base);color:var(--tx);font:16px/1.4 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;overflow-x:hidden}
+.blobs{position:fixed;inset:0;z-index:-1;overflow:hidden}
+.blobs i{position:absolute;border-radius:50%;filter:blur(70px);opacity:.75;transition:background-color .8s;animation:fl 18s ease-in-out infinite alternate}
+.blobs i:nth-child(1){width:60vmax;height:60vmax;left:-20vmax;top:-18vmax;background:var(--b1)}
+.blobs i:nth-child(2){width:50vmax;height:50vmax;right:-18vmax;top:25vh;background:var(--b2);animation-delay:-6s}
+.blobs i:nth-child(3){width:45vmax;height:45vmax;left:5vw;bottom:-22vmax;background:var(--b3);animation-delay:-11s}
+@keyframes fl{to{transform:translate(8vmax,6vmax) scale(1.15)}}
+main{max-width:780px;margin:auto;padding:16px 14px 40px;perspective:1300px}
+.glass{background:var(--gl);-webkit-backdrop-filter:blur(28px) saturate(180%);backdrop-filter:blur(28px) saturate(180%);border:1px solid var(--bd);border-radius:26px;box-shadow:0 10px 36px var(--sh),inset 0 1px 0 var(--hi);padding:16px;margin-bottom:14px}
+header{display:flex;align-items:center;gap:12px;margin:6px 4px 16px}
+header h1{margin:0;font-size:26px;letter-spacing:-.5px}header p{margin:0;color:var(--m);font-size:13px}
+.logo{width:64px;height:54px;flex:none;filter:drop-shadow(0 6px 12px var(--sh))}
+.t1,.t2,.t3{transform-box:fill-box;transform-origin:10% 90%;animation:wag 2.8s ease-in-out infinite}
+.t2{animation-delay:-.4s}.t3{animation-delay:-.8s}@keyframes wag{50%{transform:rotate(9deg)}}
+h2{font-size:15px;margin:0 0 12px}
+label.l{display:block;font-size:12px;color:var(--m);margin:8px 2px 4px;text-transform:uppercase;letter-spacing:.5px}
+input[type=text],input[type=file],input[type=datetime-local],input:not([type]),textarea{width:100%;padding:12px 14px;border-radius:14px;border:1px solid var(--bd);background:var(--gl2);color:var(--tx);font:inherit;outline:0}
+textarea{resize:vertical}input:focus,textarea:focus{box-shadow:0 0 0 3px color-mix(in srgb,var(--a) 45%,transparent)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0 14px}
+.col{border:1px solid var(--bd);background:var(--gl2);border-radius:20px;padding:12px;box-shadow:inset 0 1px 0 var(--hi)}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px;font-size:14px}
+.sw{appearance:none;-webkit-appearance:none;width:46px;height:28px;border-radius:99px;background:rgba(128,128,150,.4);position:relative;transition:.3s;flex:none;cursor:pointer;margin:0}
+.sw::after{content:"";position:absolute;top:2px;left:2px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.3);transition:.3s cubic-bezier(.34,1.56,.64,1)}
+.sw:checked{background:linear-gradient(135deg,var(--a),var(--a2))}.sw:checked::after{transform:translateX(18px)}.sw:disabled{opacity:.4}
+button,.btn{display:inline-block;padding:13px 18px;border:0;border-radius:16px;background:linear-gradient(135deg,var(--a),var(--a2));color:#fff;font:inherit;font-weight:600;cursor:pointer;text-decoration:none;box-shadow:0 6px 18px color-mix(in srgb,var(--a) 50%,transparent),inset 0 1px 0 rgba(255,255,255,.4);transition:transform .15s}
+button:active,.btn:active{transform:scale(.95)}
+.ok{color:#34d399}.no{color:#fb7185}.m{color:var(--m);font-size:13px}
+.pal{display:flex;gap:10px;flex-wrap:wrap}.pal button{width:34px;height:34px;padding:0;border-radius:50%;border:2px solid var(--bd);box-shadow:none}.pal button.on{outline:3px solid var(--tx);outline-offset:2px}
+.seg{display:grid;grid-template-columns:repeat(4,1fr);background:var(--gl2);border:1px solid var(--bd);border-radius:14px;padding:3px;gap:3px}
+.seg button{padding:9px 4px;font-size:13px;background:transparent;color:var(--m);box-shadow:none;border-radius:11px}
+.seg button.on{background:linear-gradient(135deg,var(--a),var(--a2));color:#fff}
+.job{padding:10px 0;border-top:1px solid var(--bd);font-size:14px}.job:first-child{border:0}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:2px 0 4px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}
+.chips button{flex:none;padding:8px 14px;font-size:14px;background:var(--gl2);color:var(--tx);border:1px solid var(--bd);box-shadow:none}
+.chips button.on{background:linear-gradient(135deg,var(--a),var(--a2));color:#fff;border-color:transparent}
+/* live background */
+.blobs{animation:hue 26s linear infinite}
+@keyframes hue{to{filter:hue-rotate(360deg)}}
+.spot{position:fixed;width:70vmax;height:70vmax;left:-10vmax;top:-10vmax;z-index:-1;pointer-events:none;border-radius:50%;
+background:radial-gradient(circle,rgba(255,255,255,.38),rgba(255,255,255,0) 60%);mix-blend-mode:soft-light;
+animation:drift 16s ease-in-out infinite alternate,flick 4.5s steps(1,end) infinite}
+@keyframes drift{to{transform:translate(55vw,45vh) scale(1.2)}}
+@keyframes flick{0%{opacity:.9}6%{opacity:.35}9%{opacity:.85}30%{opacity:.7}34%{opacity:.2}37%{opacity:.8}62%{opacity:1}66%{opacity:.45}70%{opacity:.95}88%{opacity:.6}92%{opacity:.3}95%{opacity:.9}}
+.glass{position:relative;overflow:hidden}
+.glass::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.2) 50%,transparent 60%);transform:translateX(-130%);animation:sheen 8s ease-in-out infinite}
+section.glass::after{animation-delay:2s}header+form.glass::after{animation-delay:1s}
+@keyframes sheen{0%,55%{transform:translateX(-130%)}100%{transform:translateX(130%)}}
+.logo{animation:glow 3.2s ease-in-out infinite}
+@keyframes glow{50%{filter:drop-shadow(0 0 16px var(--a)) drop-shadow(0 6px 12px var(--sh))}}
+.eye,.ear{transform-box:fill-box}.eye{transform-origin:50% 50%;animation:blink 5s infinite}
+@keyframes blink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.08)}}
+.ear{transform-origin:50% 100%;animation:twitch 6s infinite}
+@keyframes twitch{0%,86%,100%{transform:rotate(0)}90%{transform:rotate(-8deg)}94%{transform:rotate(4deg)}}
+.calm .blobs,.calm .blobs i,.calm .spot,.calm .glass::after,.calm .logo,.calm .eye,.calm .ear,.calm .t1,.calm .t2,.calm .t3{animation:none!important}
+/* entrance animations */
+.rv{animation-fill-mode:both;animation-delay:calc(var(--i,0)*80ms);animation-duration:.7s}
+html[data-anim=pop] .rv{animation-name:pop;animation-timing-function:cubic-bezier(.34,1.56,.64,1)}
+html[data-anim=slide] .rv{animation-name:slide;animation-timing-function:cubic-bezier(.22,1,.36,1)}
+html[data-anim=d3] .rv{animation-name:d3;animation-timing-function:cubic-bezier(.22,1,.36,1);animation-duration:.9s;transform-origin:0 50%}
+html[data-anim=fluid] .rv{animation-name:fluid;animation-timing-function:cubic-bezier(.3,1.4,.5,1);animation-duration:1s}
+@keyframes pop{from{opacity:0;transform:scale(.55)}}
+@keyframes slide{from{opacity:0;transform:translateX(70px)}}
+@keyframes d3{from{opacity:0;transform:rotateY(-80deg) translateZ(-160px) translateX(60px)}}
+@keyframes fluid{0%{opacity:0;transform:translateY(60px) scale(.88,1.1);filter:blur(14px);border-radius:60px}60%{transform:translateY(-6px) scale(1.02,.97);filter:blur(0)}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.rv,.blobs,.blobs i,.spot,.glass::after,.logo,.eye,.ear,.t1,.t2,.t3{animation:none!important}}
+</style></head><body>
+<div class="blobs"><i></i><i></i><i></i></div><div class="spot"></div>
+<main>
+<header class="rv" style="--i:0">
+<svg class="logo" viewBox="0 0 130 108" aria-label="Fox logo">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--a)"/><stop offset="1" stop-color="var(--a2)"/></linearGradient></defs>
+<g>
+<path class="t1" d="M62 86C70 50 92 22 124 14C118 42 100 76 62 92Z" fill="url(#g)" opacity=".55"/>
+<path class="t2" d="M62 90C76 62 104 44 128 46C116 70 94 92 62 96Z" fill="url(#g)" opacity=".75"/>
+<path class="t3" d="M60 92C80 82 108 84 126 100C100 108 78 108 56 98Z" fill="url(#g)"/>
+<path d="M124 14C122 22 118 28 112 34C118 28 122 22 124 14Z M128 46C124 52 118 56 112 58C120 56 126 52 128 46Z M126 100C120 100 114 100 108 99C116 102 122 102 126 100Z" fill="#fff" opacity=".9"/>
+<path d="M14 8L34 30L44 28L58 30L66 8L72 40C76 56 66 78 40 86C14 78 4 56 8 40Z" fill="url(#g)"/>
+<path class="ear" d="M20 18L32 32L22 38Z" fill="#2a1030" opacity=".55"/><path class="ear" d="M60 18L50 32L58 40Z" fill="#2a1030" opacity=".55"/>
+<path d="M8 52C20 48 30 62 40 86C22 80 10 68 8 52Z M72 52C60 48 50 62 40 86C58 80 70 68 72 52Z" fill="#fff"/>
+<ellipse class="eye" cx="26" cy="50" rx="3.4" ry="4.6" fill="#1a0f26"/><ellipse class="eye" cx="54" cy="50" rx="3.4" ry="4.6" fill="#1a0f26"/>
+<circle cx="27" cy="48.5" r="1.1" fill="#fff"/><circle cx="55" cy="48.5" r="1.1" fill="#fff"/>
+<path d="M35 70Q40 76 45 70Q40 66 35 70Z" fill="#1a0f26"/>
+</g></svg>
+<div><h1>Lone Post Studio</h1><p>YouTube · Shorts · Instagram Reels</p></div>
+</header>
+
+<form id="f" class="glass rv" style="--i:1">
+<label class="l">Video file</label><input type="file" name="video" accept="video/*" required>
+<label class="l">Genre</label><div class="chips" id="cats"></div>
+<label class="l">Game name or video name</label><input id="topicIn" maxlength="60" placeholder="e.g. Minecraft, Goa trip, Pasta recipe">
+<button type="button" id="auto" style="width:100%;margin-top:10px">✨ Auto-fill title &amp; description</button>
+<p class="m" style="margin:6px 2px 0">Choose a genre, type the game or video name, then tap Auto-fill. Tap again for a fresh idea each time.</p>
+<label class="l">Title</label><input name="title" maxlength="100" required placeholder="Catchy title">
+<label class="l">Description</label><textarea name="description" rows="4" placeholder="Tell viewers more…"></textarea>
+<label class="l">Schedule (empty = post now)</label><input type="datetime-local" name="scheduleAt">
 <div class="cols">
 <div class="col"><b>▶ YouTube</b><div id="ys" class="m">Checking…</div>
-<label><input type="checkbox" id="py" style="width:auto"> Post to YouTube</label><br>
-<label><input type="checkbox" id="sh" style="width:auto"> Upload as Short (≤60s, vertical)</label></div>
+<div class="row"><span>Post video</span><input type="checkbox" class="sw" id="py"></div>
+<div class="row"><span>As Short</span><input type="checkbox" class="sw" id="sh"></div></div>
 <div class="col"><b>📸 Instagram</b><div id="is" class="m">Checking…</div>
-<label><input type="checkbox" id="pi" style="width:auto"> Post as Reel</label></div>
-</div><br><button>Post / Schedule</button> <span id="msg" class="m"></span>
+<div class="row"><span>Post Reel</span><input type="checkbox" class="sw" id="pi"></div></div>
+</div>
+<button style="width:100%">Post / Schedule</button> <p id="msg" class="m"></p>
 </form>
-<div class="card"><b>Queue &amp; results</b><div id="jobs"></div></div>
-</main><script>
-const $=i=>document.getElementById(i);
+
+<section class="glass rv" style="--i:2"><h2>🎨 Style</h2>
+<div class="pal" id="pal"></div>
+<div class="row" style="margin-top:14px"><span>✨ Live light background</span><input type="checkbox" class="sw" id="bgan" checked></div>
+<label class="l" style="margin-top:14px">Animation</label>
+<div class="seg" id="seg" style="margin-top:14px"><button data-a="pop">Pop in</button><button data-a="slide">Slide in</button><button data-a="d3">3D slide</button><button data-a="fluid">Fluid</button></div>
+</section>
+
+<section class="glass rv" style="--i:3"><h2>Queue &amp; results</h2><div id="jobs"></div></section>
+</main>
+<script>
+const $=i=>document.getElementById(i),H=document.documentElement;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const PALS={Aurora:["#7c5cff","#ff5fa2","#38bdf8","#8d73ff","#ff5fa2"],Ocean:["#0ea5e9","#22d3ee","#6366f1","#38bdf8","#6366f1"],Sunset:["#ff7a45","#ff3d71","#ffb347","#ff7a45","#ff3d71"],Forest:["#10b981","#84cc16","#06b6d4","#34d399","#84cc16"],Sakura:["#f472b6","#c084fc","#fda4af","#f472b6","#c084fc"],Mono:["#64748b","#94a3b8","#475569","#94a3b8","#e2e8f0"]};
+const store={get(k,d){try{return localStorage.getItem(k)||d}catch{return d}},set(k,v){try{localStorage.setItem(k,v)}catch{}}};
+function replay(){document.querySelectorAll(".rv").forEach(e=>{e.style.animation="none";void e.offsetWidth;e.style.animation=""})}
+function setPal(n){const p=PALS[n];["--b1","--b2","--b3","--a","--a2"].forEach((v,i)=>H.style.setProperty(v,p[i]));
+ [...$("pal").children].forEach(b=>b.classList.toggle("on",b.title===n));store.set("pal",n)}
+function setAnim(a,play){H.dataset.anim=a;[...$("seg").children].forEach(b=>b.classList.toggle("on",b.dataset.a===a));store.set("anim",a);if(play)replay()}
+Object.keys(PALS).forEach(n=>{const b=document.createElement("button");b.type="button";b.title=n;const p=PALS[n];b.style.background=`linear-gradient(135deg,${p[0]},${p[1]})`;b.onclick=()=>setPal(n);$("pal").appendChild(b)});
+$("seg").onclick=e=>{const a=e.target.dataset.a;if(a)setAnim(a,true)};
+$("bgan").onchange=()=>{H.classList.toggle("calm",!$("bgan").checked);store.set("bg",$("bgan").checked?"1":"0")};
+$("bgan").checked=store.get("bg","1")==="1";H.classList.toggle("calm",!$("bgan").checked);
+setPal(store.get("pal","Aurora"));setAnim(store.get("anim","pop"),false);
+
 async function load(){
- const s=await (await fetch("/api/status")).json();
- $("ys").innerHTML=s.youtube?'<span class="ok">Connected</span>':'<a class="btn" href="/auth/google">Sign in with Google</a>';
- $("is").innerHTML=s.instagram?'<span class="ok">Token set</span>':'<span class="no">Add IG_USER_ID and IG_ACCESS_TOKEN in .env</span>';
+ try{const s=await(await fetch("/api/status")).json();
+ $("ys").innerHTML=s.youtube?'<span class="ok">Connected</span>':'<a class="btn" style="padding:8px 12px;font-size:13px" href="/auth/google">Sign in with Google</a>';
+ $("is").innerHTML=s.instagram?'<span class="ok">Token set</span>':'<span class="no">Add IG keys in .env</span>';
  $("py").disabled=!s.youtube;$("pi").disabled=!s.instagram;
- $("jobs").innerHTML=s.jobs.slice().reverse().map(j=>`<p><b></b><br><span class="m">${j.state} · ${new Date(j.at).toLocaleString()}</span><br>${
-  Object.entries(j.results).map(([p,r])=>`<span class="${r.ok?"ok":"no"}">${p}: ${r.msg}</span>`).join("<br>")}</p>`).join("")||'<p class="m">Nothing yet.</p>';
- [...$("jobs").querySelectorAll("b")].forEach((e,i)=>e.textContent=s.jobs.slice().reverse()[i].title);
-}
+ $("jobs").innerHTML=s.jobs.slice().reverse().map(j=>`<div class="job"><b>${esc(j.title)}</b><br><span class="m">${esc(j.state)} · ${new Date(j.at).toLocaleString()}</span><br>${
+  Object.entries(j.results).map(([p,r])=>`<span class="${r.ok?"ok":"no"}">${esc(p)}: ${esc(r.msg)}</span>`).join("<br>")}</div>`).join("")||'<p class="m">Nothing yet.</p>';
+ }catch{$("ys").textContent="Server offline"}}
 $("f").onsubmit=async e=>{e.preventDefault();
  const p=[];if($("py").checked)p.push("youtube");if($("pi").checked)p.push("instagram");
  if(!p.length){$("msg").textContent="Pick a platform";return}
  const d=new FormData($("f"));d.append("platforms",JSON.stringify(p));d.append("short",$("sh").checked);
  $("msg").textContent="Uploading to server…";
- const r=await(await fetch("/api/post",{method:"POST",body:d})).json();
- $("msg").textContent=r.ok?"Queued ✓":r.error;load();};
+ try{const r=await(await fetch("/api/post",{method:"POST",body:d})).json();$("msg").textContent=r.ok?"Queued ✓":r.error}catch{$("msg").textContent="Upload failed"}
+ load()};
+
+const D={Travel:[["{x}: hidden gems nobody tells you about","I tried {x} on a tiny budget","{x} in 24 hours","Is {x} really worth it?"],["Join me as I explore the best spots, food and stays. Save this for your next trip!","Real costs, real tips, zero fluff. Here is everything I learned."],"travel wanderlust explore budgettravel vacation reels"],
+Food:[["{x} recipe in 10 minutes","I tested viral {x} so you don't have to","Easy {x} anyone can make","{x} that changed my mind"],["Simple ingredients, big flavour. Try it and tag me!","Taste test and honest review. Would you try it?"],"foodie recipe easyrecipes cooking yum foodreels"],
+Fitness:[["{x} workout, no equipment","30-day {x} challenge","Stop doing {x} wrong","My honest {x} results"],["Follow along, no gym needed. Save it for your next session!","Small daily habits, big changes. Here is my plan."],"fitness workout homeworkout healthy motivation fitnessreels"],
+Tech:[["{x} review after 30 days","{x}: worth the money?","5 {x} tricks you didn't know","{x} vs the competition"],["Honest hands-on review with pros, cons and who it is for.","Quick tips to get more out of your gadgets."],"tech gadgets review techtips unboxing techreels"],
+Comedy:[["When {x} happens…","POV: you're at {x}","{x} be like","Every {x} ever"],["Tag the friend who does this 😂","Tell me I'm not the only one!"],"funny comedy relatable memes skit humor"],
+Education:[["Learn {x} in 5 minutes","{x} explained simply","{x} mistakes beginners make","How {x} actually works"],["Clear, short and practical. Save it to revisit later!","Broken down step by step with examples."],"education learn studytips howto explained edutok"],
+Fashion:[["{x} outfit ideas","Styling {x} 5 ways","{x} haul & try-on","Budget {x} looks"],["Outfit inspo for every mood. Which one is your favourite?","Mix and match tips to refresh your wardrobe."],"fashion ootd style outfitideas haul fashionreels"],
+Gaming:[["{x} tips to rank up","Best {x} moments","{x} beginner guide","I played {x} for 24 hours"],["Clutch plays and quick tips. What should I play next?","Level up your game with these tricks."],"gaming gamer gameplay streamer esports gamingreels"],
+Music:[["{x} cover","Making a song about {x}","Learn {x} on guitar","{x} behind the scenes"],["Headphones on! Tell me which song to do next.","From first idea to final take."],"music cover singer musician newmusic musicreels"],
+Vlog:[["A day in my life: {x}","Weekend with {x}","Honest {x} update","Come with me to {x}"],["Come hang out with me! Thanks for watching.","Real life, unfiltered. Tell me what you would like to see."],"vlog dayinmylife lifestyle dailyvlog routine vlogger"]};
+let cat="Travel";const pick=a=>a[Math.floor(Math.random()*a.length)],F=n=>document.querySelector("[name="+n+"]");
+Object.keys(D).forEach(c=>{const b=document.createElement("button");b.type="button";b.textContent=c;b.className=c===cat?"on":"";b.onclick=()=>{cat=c;[...$("cats").children].forEach(x=>x.classList.toggle("on",x===b));if(topic())autofill()};$("cats").appendChild(b)});
+function topic(){return $("topicIn").value.trim()}
+function autofill(){if(!topic()){$("msg").textContent="Type the game or video name first";$("topicIn").focus();return}$("msg").textContent="";const d=D[cat],tags=d[2].split(" ").sort(()=>Math.random()-.5).slice(0,5).map(x=>"#"+x).join(" ");
+ F("title").value=pick(d[0]).replace("{x}",topic()).slice(0,100);F("description").value=pick(d[1])+"\n\n"+tags+($("sh").checked?" #Shorts":"")}
+$("auto").onclick=autofill;
+F("video").onchange=()=>{if(!topic())$("topicIn").focus()};$("topicIn").onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();autofill()}};
+if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js').catch(()=>{});
 load();setInterval(load,10000);
 </script></body></html>

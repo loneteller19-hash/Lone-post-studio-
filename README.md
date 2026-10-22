@@ -36,3 +36,11 @@ git push -u origin main
 ## Notes
 - Scheduled posts fire only while the server runs.
 - Use only accounts you own, and follow each platform's terms.
+
+## Install as an app
+**Quick (PWA):** run `bash start.sh`, open `http://localhost:3000` in Chrome, menu (⋮) → *Install app*. It gets its own fox icon and opens full screen.
+
+**APK:** push to GitHub → *Actions* tab → *Build APK* → download `Lone-Post-Studio-APK` → unzip and install `app-debug.apk`. The APK is a shell around the server, so keep `bash start.sh` running in Termux.
+
+## Scheduling
+YouTube videos are uploaded right away and **YouTube itself holds the schedule** (private until the publish time), so a long schedule survives a server restart. Instagram Reels are held on the server until their time, so keep the server (and its storage) running for those.
